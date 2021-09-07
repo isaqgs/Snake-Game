@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Pixels";
+    src: url('./fonts/Pixels.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pixels';
+}
+
+h1 {
+    font-size: 60px;
+}
+
+body {
+    background: #1e1d24;
+}
+
+canvas {
+    background: #48484f;
+}
+
+#container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#container > div {
+    display: inline-block;
+}
+
+#container > div > div {
+    display: flex;
+    color: white;
+    justify-content: space-between;
+}
