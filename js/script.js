@@ -91,6 +91,12 @@ function draw() {
 function newFood() {
     food.x = Math.floor(Math.random() * 32 + 0) * box
     food.y = Math.floor(Math.random() * 16 + 0) * box
+
+    for (let i = 0; i < snake.length; i++) {
+        if (food.x == snake[i].x && food.y == snake[i].y) {
+            return newFood()
+        }
+    }
 }
 
 function updateScore() {
