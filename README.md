@@ -1,1 +1,1 @@
-Jogo da cobrinha com HTML, CSS e Javascript, utilizando <canvas>
+Jogo da cobrinha com HTML, CSS e Javascript, utilizando <b>canvas</b>
