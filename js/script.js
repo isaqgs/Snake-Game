@@ -5,13 +5,13 @@ let food = {
     y: 0
 }
 let canvas = document.querySelector('canvas').getContext('2d')
-let score, direction, snake, atualizar
+let score, newDirection, snake, atualizar, actualDirection
 
 window.addEventListener("keydown", (e) => {
 
-    if (e.key == 'ArrowRight' && direction != 'ArrowLeft' || e.key == 'ArrowLeft' && direction != 'ArrowRight' || e.key == 'ArrowUp' && direction != 'ArrowDown' || e.key == 'ArrowDown' && direction != 'ArrowUp') {
+    if (e.key == 'ArrowRight' && actualDirection != 'left' || e.key == 'ArrowLeft' && actualDirection != 'right' || e.key == 'ArrowUp' && actualDirection != 'down' || e.key == 'ArrowDown' && actualDirection != 'up') {
 
-        direction = e.key
+        newDirection = e.key
 
     }
 
@@ -22,19 +22,16 @@ startGame()
 function startGame() {
     score = 0
     document.getElementById("score").textContent = score
-    snake = [{
-        x: 0,
-        y: 0
-    }]
-    direction = "ArrowRight"
+    snake = [
+        {x: box, y: 0}
+    ]
+    newDirection = "ArrowRight"
 
     newFood()
 
     atualizar = setInterval(() => {
 
         draw()
-
-        eatFood()
 
         if (perdeu()) {
             clearInterval(atualizar)
@@ -49,23 +46,34 @@ function draw() {
     let snakeX = snake[0].x
     let snakeY = snake[0].y
 
-    if (direction == 'ArrowRight') {
+    if (newDirection == 'ArrowRight') {
         snakeX += box
+        actualDirection = "right"
     }
-    if (direction == 'ArrowLeft') {
+    if (newDirection == 'ArrowLeft') {
         snakeX -= box
+        actualDirection = "left"
     }
-    if (direction == 'ArrowUp') {
+    if (newDirection == 'ArrowUp') {
         snakeY -= box
+        actualDirection = "up"
     }
-    if (direction == 'ArrowDown') {
+    if (newDirection == 'ArrowDown') {
         snakeY += box
+        actualDirection = "down"
     }
 
     snake.unshift({
         x: snakeX,
         y: snakeY
     })
+
+    if (snake[0].x == food.x && snake[0].y == food.y) {
+        updateScore()
+        newFood()
+    } else {
+        snake.pop()
+    }
 
     canvas.clearRect(0, 0, 1024, 512)
 
@@ -78,15 +86,6 @@ function draw() {
         canvas.fillRect(pos.x, pos.y, box, box)
     })
 
-}
-
-function eatFood() {
-    if (snake[0].x == food.x && snake[0].y == food.y) {
-        updateScore()
-        newFood()
-    } else {
-        snake.pop()
-    }
 }
 
 function newFood() {
