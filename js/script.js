@@ -1,4 +1,19 @@
-let highscore = 0
+if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
+    setHighscoreCookie(0)
+}
+
+function setHighscoreCookie(value) {
+    expires = new Date('8 Sep 2022 00:00:00 GMT')
+    document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
+}
+
+function getHighscoreCookie() {
+    return document.cookie.split("=")[1]
+}
+
+let divHs = document.getElementById("highscore")
+divHs.textContent = getHighscoreCookie()
+
 let box = 32
 let food = {
     x: 0,
@@ -22,9 +37,10 @@ startGame()
 function startGame() {
     score = 0
     document.getElementById("score").textContent = score
-    snake = [
-        {x: box, y: 0}
-    ]
+    snake = [{
+        x: box,
+        y: 0
+    }]
     newDirection = "ArrowRight"
 
     newFood()
@@ -102,9 +118,9 @@ function newFood() {
 function updateScore() {
     score++
     document.getElementById("score").textContent = score
-    if (score > highscore) {
-        highscore = score
-        document.getElementById("highscore").textContent = highscore
+    if (score > getHighscoreCookie()) {
+        setHighscoreCookie(score)
+        divHs.textContent = getHighscoreCookie()
     }
 }
 
