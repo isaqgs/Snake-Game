@@ -11,6 +11,29 @@ function getHighscoreCookie() {
     return document.cookie.split("=")[1]
 }
 
+let audio = {
+    moviment: {
+        audio: new Audio('./assets/audio/beep2.wav'),
+        play() {
+            this.audio.play()
+        }
+    },
+
+    eat: {
+        audio: new Audio('./assets/audio/beep1.wav'),
+        play() {
+            this.audio.play()
+        }
+    },
+
+    death: {
+        audio: new Audio('./assets/audio/death.wav'),
+        play() {
+            this.audio.play()
+        }
+    }
+}
+
 let divHs = document.getElementById("highscore")
 divHs.textContent = getHighscoreCookie()
 
@@ -24,9 +47,10 @@ let score, newDirection, snake, atualizar, actualDirection
 
 window.addEventListener("keydown", (e) => {
 
-    if (e.key == 'ArrowRight' && actualDirection != 'left' || e.key == 'ArrowLeft' && actualDirection != 'right' || e.key == 'ArrowUp' && actualDirection != 'down' || e.key == 'ArrowDown' && actualDirection != 'up') {
+    if (e.key == 'ArrowRight' && actualDirection != 'left' && actualDirection != 'right'|| e.key == 'ArrowLeft' && actualDirection != 'right' && actualDirection != 'left'|| e.key == 'ArrowUp' && actualDirection != 'down' && actualDirection != 'up'|| e.key == 'ArrowDown' && actualDirection != 'up' && actualDirection != 'down') {
 
         newDirection = e.key
+        audio.moviment.play()
 
     }
 
@@ -50,6 +74,7 @@ function startGame() {
         draw()
 
         if (perdeu()) {
+            audio.death.play()
             clearInterval(atualizar)
             if (confirm('Você perdeu! Deseja reiniciar?')) startGame()
         }
@@ -117,6 +142,7 @@ function newFood() {
 
 function updateScore() {
     score++
+    audio.eat.play()
     document.getElementById("score").textContent = score
     if (score > getHighscoreCookie()) {
         setHighscoreCookie(score)
