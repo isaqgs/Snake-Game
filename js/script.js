@@ -1,16 +1,17 @@
 if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
-    setHighscoreCookie(0)
+    hsCookie.hsCookie.setHsCookie(0)
 }
 
-function setHighscoreCookie(value) {
-    expires = new Date('8 Sep 2022 00:00:00 GMT')
-    document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
-}
+let hsCookie = {
+    hs: document.cookie.split("=")[1],
 
-function getHighscoreCookie() {
-    return document.cookie.split("=")[1]
+    setHsCookie(value) {
+        expires = new Date('8 Sep 2022 00:00:00 GMT')
+        document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
+        this.hs = document.cookie.split("=")[1]
+    },
 }
-
+ 
 let audio = {
     moviment: {
         audio: new Audio('./assets/audio/beep2.wav'),
@@ -35,7 +36,7 @@ let audio = {
 }
 
 let divHs = document.getElementById("highscore")
-divHs.textContent = getHighscoreCookie()
+divHs.textContent = hsCookie.hs
 
 let box = 32
 let food = {
@@ -144,9 +145,9 @@ function updateScore() {
     score++
     audio.eat.play()
     document.getElementById("score").textContent = score
-    if (score > getHighscoreCookie()) {
-        setHighscoreCookie(score)
-        divHs.textContent = getHighscoreCookie()
+    if (score > hsCookie.hs) {
+        hsCookie.setHsCookie(score)
+        divHs.textContent = hsCookie.hs
     }
 }
 
