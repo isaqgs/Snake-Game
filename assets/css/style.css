@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Pixels';
+    box-sizing: border-box;
 }
 
 h1 {
@@ -18,6 +19,7 @@ body {
 }
 
 canvas {
+    position: relative;
     background: #48484f;
 }
 
@@ -32,8 +34,68 @@ canvas {
     display: inline-block;
 }
 
-#container > div > div {
+.score {
     display: flex;
     color: white;
     justify-content: space-between;
+    user-select: none;
 }
+
+:root {
+    --btn-bg: #f7dc0a;
+    --btn-bs: #FA9F0D;
+}
+
+#btnStart {
+    width: 80px;
+    height: 40px;
+    border: 2px solid #FA9F0D;
+    box-shadow: 1px 1px 0px 0px var(--btn-bs), 2px 2px 0px 0px var(--btn-bs), 3px 3px 0px 0px var(--btn-bs), 4px 4px 0px 0px var(--btn-bs), 5px 5px 0px 0px var(--btn-bs);
+    background: var(--btn-bg);
+    position: relative;
+    cursor: pointer;
+    animation: btnAnimation 2s infinite;
+    margin-top: 110px;
+}
+
+#btnStart:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px
+}
+
+#menu {
+    position: absolute;
+    z-index: 1;
+    width: 1024px;
+    height: 512px;
+    text-align: center;
+    background: rgba(0, 0, 0, .2);
+}
+
+#titulo {
+    margin-top: 20px;
+    user-select: none;
+    color: white;
+    font-size: 250px;
+    text-shadow: 
+        1px 1px 0 black, 
+        2px 2px 0 black, 
+        3px 3px 0 black, 
+        4px 4px 0 black,
+        5px 5px 0 black,
+        6px 6px 0 black,
+        7px 7px 0 black,
+        8px 8px 0 black;
+}
+/* @keyframes btnAnimation {
+    50% {
+        width: 86px;
+        height: 43px;
+    }
+
+    100% {
+        width: 80px;
+        height: 40px;
+    }
+} */

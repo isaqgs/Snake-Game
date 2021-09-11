@@ -43,8 +43,12 @@ let food = {
     x: 0,
     y: 0
 }
+
 let canvas = document.querySelector('canvas').getContext('2d')
 let score, newDirection, snake, atualizar, actualDirection
+
+let menu = document.getElementById("menu")
+let button = document.querySelector("img")
 
 window.addEventListener("keydown", (e) => {
 
@@ -57,9 +61,9 @@ window.addEventListener("keydown", (e) => {
 
 })
 
-startGame()
-
 function startGame() {
+    menu.style.display = "none"
+    
     score = 0
     document.getElementById("score").textContent = score
     snake = [{
@@ -71,13 +75,15 @@ function startGame() {
     newFood()
 
     atualizar = setInterval(() => {
-
+ 
         draw()
 
         if (perdeu()) {
             audio.death.play()
             clearInterval(atualizar)
-            if (confirm('Você perdeu! Deseja reiniciar?')) startGame()
+            menu.style.display = "block"
+            button.src = "assets/svg/reset.svg"
+            document.getElementById("titulo").textContent = "Game Over"
         }
 
     }, 1000 / 15)

@@ -12,7 +12,7 @@
 <body>
     <div id="container">
         <div>
-            <div>
+            <div class="score">
                 <h1>
                     Score: <span id="score">0</span>
                 </h1>
@@ -20,11 +20,18 @@
                     Highscore: <span id="highscore">0</span>
                 </h1>
             </div>
-            
+
+            <div id="menu">
+                <h1 id="titulo">Snake Game</h1>
+                <button id="btnStart" onclick="startGame()">
+                    <img src="assets/svg/play.svg">
+                </button>
+            </div>
+
             <canvas height="512" width="1024"></canvas>
         </div>
     </div>
-    
+
     <script src="js/script.js"></script>
 </body>
 
