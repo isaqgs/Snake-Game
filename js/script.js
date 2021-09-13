@@ -16,6 +16,7 @@ let audio = {
     moviment: {
         audio: new Audio('./assets/audio/beep2.wav'),
         play() {
+            this.audio.load()
             this.audio.play()
         }
     },
@@ -45,6 +46,9 @@ let food = {
 }
 
 let canvas = document.querySelector('canvas').getContext('2d')
+
+let start = false
+
 let score, newDirection, snake, atualizar, actualDirection
 
 let menu = document.getElementById("menu")
@@ -52,16 +56,26 @@ let button = document.querySelector("img")
 
 window.addEventListener("keydown", (e) => {
 
-    if (e.key == 'ArrowRight' && actualDirection != 'left' && actualDirection != 'right'|| e.key == 'ArrowLeft' && actualDirection != 'right' && actualDirection != 'left'|| e.key == 'ArrowUp' && actualDirection != 'down' && actualDirection != 'up'|| e.key == 'ArrowDown' && actualDirection != 'up' && actualDirection != 'down') {
+    if (start) {
+        if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' && actualDirection != 'ArrowRight'|| e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' && actualDirection != 'ArrowLeft'|| e.key == 'ArrowUp' && actualDirection != 'ArrowDown' && actualDirection != 'ArrowUp'|| e.key == 'ArrowDown' && actualDirection != 'ArrowUp' && actualDirection != 'ArrowDown') {
+    
+            newDirection = e.key
+            audio.moviment.play()
+    
+        }
+    } else {
+        if (e.key == 'Enter') {
 
-        newDirection = e.key
-        audio.moviment.play()
+            startGame()
 
+        }
     }
 
 })
 
 function startGame() {
+    start = true
+
     menu.style.display = "none"
     
     score = 0
@@ -79,6 +93,7 @@ function startGame() {
         draw()
 
         if (perdeu()) {
+            start = false
             audio.death.play()
             clearInterval(atualizar)
             menu.style.display = "block"
@@ -96,20 +111,18 @@ function draw() {
 
     if (newDirection == 'ArrowRight') {
         snakeX += box
-        actualDirection = "right"
     }
     if (newDirection == 'ArrowLeft') {
         snakeX -= box
-        actualDirection = "left"
     }
     if (newDirection == 'ArrowUp') {
         snakeY -= box
-        actualDirection = "up"
     }
     if (newDirection == 'ArrowDown') {
         snakeY += box
-        actualDirection = "down"
     }
+
+    actualDirection = newDirection
 
     snake.unshift({
         x: snakeX,
