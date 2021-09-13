@@ -54,7 +54,6 @@ canvas {
     background: var(--btn-bg);
     position: relative;
     cursor: pointer;
-    animation: btnAnimation 2s infinite;
     margin-top: 110px;
 }
 
@@ -88,14 +87,3 @@ canvas {
         7px 7px 0 black,
         8px 8px 0 black;
 }
-/* @keyframes btnAnimation {
-    50% {
-        width: 86px;
-        height: 43px;
-    }
-
-    100% {
-        width: 80px;
-        height: 40px;
-    }
-} */
