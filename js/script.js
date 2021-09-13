@@ -1,7 +1,3 @@
-if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
-    hsCookie.hsCookie.setHsCookie(0)
-}
-
 let hsCookie = {
     hs: document.cookie.split("=")[1],
 
@@ -11,8 +7,12 @@ let hsCookie = {
         this.hs = document.cookie.split("=")[1]
     },
 }
+
+if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
+    hsCookie.setHsCookie(0)
+}
  
-let audio = {
+const audio = {
     moviment: {
         audio: new Audio('./assets/audio/beep2.wav'),
         play() {
@@ -36,32 +36,34 @@ let audio = {
     }
 }
 
-let divHs = document.getElementById("highscore")
+const divHs = document.getElementById("highscore")
 divHs.textContent = hsCookie.hs
 
-let box = 32
+const box = 32
 let food = {
     x: 0,
     y: 0
 }
 
-let canvas = document.querySelector('canvas').getContext('2d')
+const canvas = document.querySelector('canvas').getContext('2d')
 
 let start = false
 
 let score, newDirection, snake, atualizar, actualDirection
 
-let menu = document.getElementById("menu")
-let button = document.querySelector("img")
+const menu = document.getElementById("menu")
+const button = document.querySelector("img")
 
 window.addEventListener("keydown", (e) => {
 
     if (start) {
-        if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' && actualDirection != 'ArrowRight'|| e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' && actualDirection != 'ArrowLeft'|| e.key == 'ArrowUp' && actualDirection != 'ArrowDown' && actualDirection != 'ArrowUp'|| e.key == 'ArrowDown' && actualDirection != 'ArrowUp' && actualDirection != 'ArrowDown') {
+        if (actualDirection != e.key) {
+            if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
     
-            newDirection = e.key
-            audio.moviment.play()
-    
+                newDirection = e.key
+                audio.moviment.play()
+        
+            }
         }
     } else {
         if (e.key == 'Enter') {
