@@ -99,7 +99,7 @@ function startGame() {
         } else {
             for (i = 1; i < snake.length; i++) {
                 if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
-                    return fimDeJogo()
+                    return fimDeJogo(snake[i].x, snake[i].y)
                 }
             }
         }
@@ -147,7 +147,6 @@ function draw() {
     canvas.fillStyle = "#03fcc2"
 
     snake.forEach(pos => {
-
         canvas.fillRect(pos.x, pos.y, box, box)
     })
 
@@ -174,7 +173,11 @@ function updateScore() {
     }
 }
 
-function fimDeJogo() {
+function fimDeJogo(x, y) {
+    if (x) {
+        canvas.fillStyle = "#03daa8"
+        canvas.fillRect(x, y, box, box)
+    }
     clearInterval(atualizar)
     start = false
     audio.death.play()
