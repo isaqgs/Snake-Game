@@ -11,7 +11,7 @@ let hsCookie = {
 if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
     hsCookie.setHsCookie(0)
 }
- 
+
 const audio = {
     moviment: {
         audio: new Audio('./assets/audio/beep2.wav'),
@@ -59,10 +59,10 @@ window.addEventListener("keydown", (e) => {
     if (start) {
         if (actualDirection != e.key) {
             if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
-    
+
                 newDirection = e.key
                 audio.moviment.play()
-        
+
             }
         }
     } else {
@@ -79,7 +79,7 @@ function startGame() {
     start = true
 
     menu.style.display = "none"
-    
+
     score = 0
     document.getElementById("score").textContent = score
     snake = [{
@@ -91,16 +91,17 @@ function startGame() {
     newFood()
 
     atualizar = setInterval(() => {
- 
+
         draw()
 
-        if (perdeu()) {
-            start = false
-            audio.death.play()
-            clearInterval(atualizar)
-            menu.style.display = "block"
-            button.src = "assets/svg/reset.svg"
-            document.getElementById("titulo").textContent = "Game Over"
+        if (snake[0].x == 1024 || snake[0].x == -box || snake[0].y == -box || snake[0].y == 512) {
+            fimDeJogo()
+        } else {
+            for (i = 1; i < snake.length; i++) {
+                if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+                    return fimDeJogo()
+                }
+            }
         }
 
     }, 1000 / 15)
@@ -146,6 +147,7 @@ function draw() {
     canvas.fillStyle = "#03fcc2"
 
     snake.forEach(pos => {
+
         canvas.fillRect(pos.x, pos.y, box, box)
     })
 
@@ -172,15 +174,11 @@ function updateScore() {
     }
 }
 
-function perdeu() {
-    if (snake[0].x == 1024 || snake[0].x == -box || snake[0].y == -box || snake[0].y == 512) {
-        return true
-    } else {
-        for (i = 1; i < snake.length; i++) {
-            if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
-                return true
-            }
-        }
-        return false
-    }
+function fimDeJogo() {
+    clearInterval(atualizar)
+    start = false
+    audio.death.play()
+    menu.style.display = "block"
+    button.src = "assets/svg/reset.svg"
+    document.getElementById("titulo").textContent = "Game Over"
 }
