@@ -1,24 +1,4 @@
-let hsCookie = {
-    hs: document.cookie.split("=")[1],
-
-    setHsCookie(value) {
-        expires = new Date('8 Sep 2022 00:00:00 GMT')
-        document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
-        this.hs = document.cookie.split("=")[1]
-    },
-}
-
-if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
-    hsCookie.setHsCookie(0)
-}
-
-const divHs = document.getElementById("highscore")
-divHs.textContent = hsCookie.hs
-
-let audioMoviment = new Audio('./assets/audio/beep2.wav')
-let audioEat =  new Audio('./assets/audio/beep1.wav')
-let audioDeath = new Audio('./assets/audio/death.wav')
-
+/* VARIÁVEIS GLOBAIS */
 const box = 32
 let food = {
     x: 0,
@@ -33,7 +13,33 @@ let score, newDirection, snake, atualizar, actualDirection
 
 const menu = document.getElementById("menu")
 const button = document.querySelector("img")
+const divHs = document.getElementById("highscore")
 
+/* COOKIES-HIGHSCORE */
+let hsCookie = {
+    hs: document.cookie.split("=")[1],
+
+    setHsCookie(value) {
+        expires = new Date('8 Sep 2022 00:00:00 GMT')
+        document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
+        this.hs = document.cookie.split("=")[1]
+    },
+}
+
+if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
+    hsCookie.setHsCookie(0)
+}
+
+divHs.textContent = hsCookie.hs
+
+/* AUDIO */
+let audio = {
+    moviment: new Audio('./assets/audio/beep2.wav'),
+    eat: new Audio('./assets/audio/beep1.wav'),
+    death: new Audio('./assets/audio/death.wav')
+}
+
+/* EVENTO RESPONSÁVEL POR DETECTAR A TECLA PRESSIONADA */
 window.addEventListener("keydown", (e) => {
 
     if (start) {
@@ -41,8 +47,8 @@ window.addEventListener("keydown", (e) => {
             if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
 
                 newDirection = e.key
-                audioMoviment.load()
-                audioMoviment.play()
+                audio.moviment.load()
+                audio.moviment.play()
 
             }
         }
@@ -56,6 +62,7 @@ window.addEventListener("keydown", (e) => {
 
 })
 
+/* FUNÇÃO RESPONSÁVEL POR INICIAR O JOGO */
 function startGame() {
     start = true
 
@@ -88,6 +95,7 @@ function startGame() {
     }, 1000 / 15)
 }
 
+/* FUNÇÃO RESPONSÁVEL DESENHAR CADA FRAME DO JOGO */
 function draw() {
 
     let snakeX = snake[0].x
@@ -133,6 +141,7 @@ function draw() {
 
 }
 
+/* FUNÇÃO RESPONSÁVEL POR CRIAR UMA NOVA COMIDA */
 function newFood() {
     food.x = Math.floor(Math.random() * 32 + 0) * box
     food.y = Math.floor(Math.random() * 16 + 0) * box
@@ -144,9 +153,10 @@ function newFood() {
     }
 }
 
+/* FUNÇÃO RESPONSÁVEL POR ATUALIZAR A PONTUAÇÃO DO JOGO */
 function updateScore() {
     score++
-    audioEat.play()
+    audio.eat.play()
     document.getElementById("score").textContent = score
     if (score > hsCookie.hs) {
         hsCookie.setHsCookie(score)
@@ -154,6 +164,7 @@ function updateScore() {
     }
 }
 
+/* FUNÇÃO RESPONSÁVEL POR TERMINAR O JOGO */
 function fimDeJogo(x, y) {
     if (x) {
         canvas.fillStyle = "#03daa8"
@@ -161,7 +172,7 @@ function fimDeJogo(x, y) {
     }
     clearInterval(atualizar)
     start = false
-    audioDeath.play()
+    audio.death.play()
     menu.style.display = "block"
     button.src = "assets/svg/reset.svg"
     document.getElementById("titulo").textContent = "Game Over"
