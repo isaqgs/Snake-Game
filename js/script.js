@@ -12,32 +12,12 @@ if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore
     hsCookie.setHsCookie(0)
 }
 
-const audio = {
-    moviment: {
-        audio: new Audio('./assets/audio/beep2.wav'),
-        play() {
-            this.audio.load()
-            this.audio.play()
-        }
-    },
-
-    eat: {
-        audio: new Audio('./assets/audio/beep1.wav'),
-        play() {
-            this.audio.play()
-        }
-    },
-
-    death: {
-        audio: new Audio('./assets/audio/death.wav'),
-        play() {
-            this.audio.play()
-        }
-    }
-}
-
 const divHs = document.getElementById("highscore")
 divHs.textContent = hsCookie.hs
+
+let audioMoviment = new Audio('./assets/audio/beep2.wav')
+let audioEat =  new Audio('./assets/audio/beep1.wav')
+let audioDeath = new Audio('./assets/audio/death.wav')
 
 const box = 32
 let food = {
@@ -61,7 +41,8 @@ window.addEventListener("keydown", (e) => {
             if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
 
                 newDirection = e.key
-                audio.moviment.play()
+                audioMoviment.load()
+                audioMoviment.play()
 
             }
         }
@@ -165,7 +146,7 @@ function newFood() {
 
 function updateScore() {
     score++
-    audio.eat.play()
+    audioEat.play()
     document.getElementById("score").textContent = score
     if (score > hsCookie.hs) {
         hsCookie.setHsCookie(score)
@@ -180,7 +161,7 @@ function fimDeJogo(x, y) {
     }
     clearInterval(atualizar)
     start = false
-    audio.death.play()
+    audioDeath.play()
     menu.style.display = "block"
     button.src = "assets/svg/reset.svg"
     document.getElementById("titulo").textContent = "Game Over"
