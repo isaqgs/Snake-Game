@@ -20,7 +20,10 @@ body {
 
 canvas {
     position: relative;
-    background: #48484f;
+    background-color: #313136;
+    background-image: repeating-linear-gradient(45deg, #48484f 25%, transparent 25%, transparent 75%, #48484f 75%, #48484f), repeating-linear-gradient(45deg, #48484f 25%, #313136 25%, #313136 75%, #48484f 75%, #48484f);
+    background-position: 0 0, 32px 32px;
+    background-size: 64px 64px;
 }
 
 #container {
@@ -30,7 +33,7 @@ canvas {
     align-items: center;
 }
 
-#container > div {
+#container>div {
     display: inline-block;
 }
 
@@ -77,10 +80,10 @@ canvas {
     user-select: none;
     color: white;
     font-size: 250px;
-    text-shadow: 
-        1px 1px 0 black, 
-        2px 2px 0 black, 
-        3px 3px 0 black, 
+    text-shadow:
+        1px 1px 0 black,
+        2px 2px 0 black,
+        3px 3px 0 black,
         4px 4px 0 black,
         5px 5px 0 black,
         6px 6px 0 black,
