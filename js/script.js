@@ -40,9 +40,18 @@ divHs.textContent = hsCookie.hs
 
 /* AUDIO */
 let audio = {
-    moviment: new Audio('./assets/audio/beep2.wav'),
-    eat: new Audio('./assets/audio/beep1.wav'),
-    death: new Audio('./assets/audio/death.wav')
+    moviment() {
+        let audio = new Audio('./assets/audio/beep2.wav')
+        audio.play()
+    },
+    eat() {
+        let audio = new Audio('./assets/audio/beep1.wav')
+        audio.play()
+    },
+    death() {
+        let audio = new Audio('./assets/audio/death.wav')
+        audio.play()
+    }
 }
 
 /* EVENTO RESPONSÁVEL POR DETECTAR A TECLA PRESSIONADA */
@@ -53,7 +62,7 @@ window.addEventListener("keydown", (e) => {
             if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
 
                 newDirection = e.key
-                audio.moviment.play()
+                audio.moviment()
 
             }
         }
@@ -168,7 +177,7 @@ function newFood() {
 /* FUNÇÃO RESPONSÁVEL POR ATUALIZAR A PONTUAÇÃO DO JOGO */
 function updateScore() {
     score++
-    audio.eat.play()
+    audio.eat()
     document.getElementById("score").textContent = score
     if (score > hsCookie.hs) {
         hsCookie.setHsCookie(score)
@@ -184,7 +193,7 @@ function fimDeJogo(x, y) {
     }
     clearInterval(atualizar)
     start = false
-    audio.death.play()
+    audio.death()
     menu.style.display = "block"
     button.src = "assets/svg/reset.svg"
     document.getElementById("titulo").textContent = "Game Over"
