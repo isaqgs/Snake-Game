@@ -9,11 +9,17 @@ const canvas = document.querySelector('canvas').getContext('2d')
 
 let start = false
 
-let score, newDirection, snake, atualizar, actualDirection
+let qntdGrow = 0
+
+let score, newDirection, snake, atualizar, actualDirection, snakeX, snakeY
 
 const menu = document.getElementById("menu")
 const button = document.querySelector("img")
 const divHs = document.getElementById("highscore")
+
+const grow = 40
+const fps = 45
+const velocidade = 8
 
 /* COOKIES-HIGHSCORE */
 let hsCookie = {
@@ -47,7 +53,6 @@ window.addEventListener("keydown", (e) => {
             if (e.key == 'ArrowRight' && actualDirection != 'ArrowLeft' || e.key == 'ArrowLeft' && actualDirection != 'ArrowRight' || e.key == 'ArrowUp' && actualDirection != 'ArrowDown' || e.key == 'ArrowDown' && actualDirection != 'ArrowUp') {
 
                 newDirection = e.key
-                audio.moviment.load()
                 audio.moviment.play()
 
             }
@@ -92,40 +97,47 @@ function startGame() {
             }
         }
 
-    }, 1000 / 15)
+    }, 1000 / fps)
 }
 
 /* FUNÇÃO RESPONSÁVEL DESENHAR CADA FRAME DO JOGO */
 function draw() {
 
-    let snakeX = snake[0].x
-    let snakeY = snake[0].y
-
-    if (newDirection == 'ArrowRight') {
-        snakeX += box
+    if (snake[0].x % 32 == 0 && snake[0].y % 32 == 0) {
+        if (newDirection == 'ArrowRight') {
+            snakeX = velocidade
+            snakeY = 0
+        }
+        if (newDirection == 'ArrowLeft') {
+            snakeX = -velocidade
+            snakeY = 0
+        }
+        if (newDirection == 'ArrowUp') {
+            snakeY = -velocidade
+            snakeX = 0
+        }
+        if (newDirection == 'ArrowDown') {
+            snakeY = velocidade
+            snakeX = 0
+        }        
+        actualDirection = newDirection
     }
-    if (newDirection == 'ArrowLeft') {
-        snakeX -= box
-    }
-    if (newDirection == 'ArrowUp') {
-        snakeY -= box
-    }
-    if (newDirection == 'ArrowDown') {
-        snakeY += box
-    }
-
-    actualDirection = newDirection
 
     snake.unshift({
-        x: snakeX,
-        y: snakeY
+        x: snake[0].x + snakeX,
+        y: snake[0].y + snakeY
     })
 
     if (snake[0].x == food.x && snake[0].y == food.y) {
         updateScore()
         newFood()
-    } else {
+        qntdGrow += grow
+    }
+    
+    if (qntdGrow == 0){
         snake.pop()
+    } else {
+        qntdGrow--
     }
 
     canvas.clearRect(0, 0, 1024, 512)
