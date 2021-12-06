@@ -17,8 +17,8 @@ const menu = document.getElementById("menu")
 const button = document.querySelector("img")
 const divHs = document.getElementById("highscore")
 
-const grow = 40
-const fps = 45
+const grow = 4
+const fps = 50
 const velocidade = 8
 
 /* COOKIES-HIGHSCORE */
