@@ -78,6 +78,8 @@ window.addEventListener("keydown", (e) => {
 
 /* FUNÇÃO RESPONSÁVEL POR INICIAR O JOGO */
 function startGame() {
+    clearInterval(atualizar)
+
     start = true
 
     menu.style.display = "none"
