@@ -23,20 +23,24 @@ const velocidade = 8
 
 /* COOKIES-HIGHSCORE */
 let hsCookie = {
-    hs: document.cookie.split("=")[1],
+    getHsCookie() {
+        return document.cookie
+            .split('; ')
+            .find(row => row.startsWith('highscore'))
+            .split('=')[1]
+    },
 
     setHsCookie(value) {
         expires = new Date('8 Sep 2022 00:00:00 GMT')
         document.cookie = `highscore=${value}; expires=${expires.toUTCString()}`
-        this.hs = document.cookie.split("=")[1]
-    },
+    }
 }
 
 if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
     hsCookie.setHsCookie(0)
 }
 
-divHs.textContent = hsCookie.hs
+divHs.textContent = hsCookie.getHsCookie()
 
 /* AUDIO */
 let audio = {
@@ -130,7 +134,7 @@ function draw() {
         if (newDirection == 'ArrowDown') {
             snakeY = velocidade
             snakeX = 0
-        }        
+        }
         actualDirection = newDirection
     }
 
@@ -144,8 +148,8 @@ function draw() {
         newFood()
         qntdGrow += grow
     }
-    
-    if (qntdGrow == 0){
+
+    if (qntdGrow == 0) {
         snake.pop()
     } else {
         qntdGrow--
@@ -181,9 +185,9 @@ function updateScore() {
     score++
     audio.eat()
     document.getElementById("score").textContent = score
-    if (score > hsCookie.hs) {
+    if (score > hsCookie.getHsCookie()) {
         hsCookie.setHsCookie(score)
-        divHs.textContent = hsCookie.hs
+        divHs.textContent = hsCookie.getHsCookie()
     }
 }
 
