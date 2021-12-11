@@ -11,7 +11,7 @@ let start = false
 
 let qntdGrow = 0
 
-let score, newDirection, snake, atualizar, actualDirection, snakeX, snakeY
+let score, highscore, newDirection, snake, atualizar, actualDirection, snakeX, snakeY
 
 const menu = document.getElementById("menu")
 const button = document.querySelector("img")
@@ -21,7 +21,7 @@ const grow = 4
 const fps = 50
 const velocidade = 8
 
-/* COOKIES-HIGHSCORE */
+/* COOKIES/HIGHSCORE */
 let hsCookie = {
     getHsCookie() {
         return document.cookie
@@ -36,11 +36,16 @@ let hsCookie = {
     }
 }
 
-if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
-    hsCookie.setHsCookie(0)
+if (document.cookie) {
+    if (!document.cookie.split(';').some((item) => item.trim().startsWith('highscore='))) {
+        hsCookie.setHsCookie(0)
+    }
+    highscore = hsCookie.getHsCookie()
+} else {
+    highscore = 0
 }
 
-divHs.textContent = hsCookie.getHsCookie()
+divHs.textContent = highscore
 
 /* AUDIO */
 let audio = {
@@ -185,9 +190,12 @@ function updateScore() {
     score++
     audio.eat()
     document.getElementById("score").textContent = score
-    if (score > hsCookie.getHsCookie()) {
-        hsCookie.setHsCookie(score)
-        divHs.textContent = hsCookie.getHsCookie()
+    if (score > highscore) {
+        highscore++
+        divHs.textContent = highscore
+        if (document.cookie) {
+            hsCookie.setHsCookie(highscore)
+        } 
     }
 }
 
